@@ -17,4 +17,8 @@ export class PostService{
         const subscr = this.http.post<Post>(this.apiUrl, postData);
         return subscr;
     }
+
+    deletePosts(){
+        return this.http.delete(this.apiUrl);
+    }
 }
