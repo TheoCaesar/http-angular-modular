@@ -14,7 +14,7 @@ export interface Post {
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  loadedPosts = [];
+  loadedPosts: Post[] = [];
   apiUrl = "https://simple-angular-posts-default-rtdb.firebaseio.com/"
   constructor(private http: HttpClient) {}
 
@@ -41,8 +41,7 @@ export class AppComponent implements OnInit {
         return postArray;
       })
     )
-    .subscribe((data)=>
-    console.log(data))
+    .subscribe((data)=> {this.loadedPosts = data})
   }
 
   onClearPosts() {
