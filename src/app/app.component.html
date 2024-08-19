@@ -59,6 +59,10 @@
       </ul>
       <p *ngIf="!isFetching && !loadedPosts.length" #fallback>No posts available!</p>
       <p *ngIf="isFetching"> Loading...</p>
+      <div *ngIf="error" class="alert alert-danger">
+        <h1>An Error Occured</h1>
+        <p>{{error.message}}</p>
+      </div>
     </div>
   </div>
 </div>

@@ -17,6 +17,7 @@ export interface Post {
 export class AppComponent implements OnInit {
   loadedPosts: Post[] = [];
   isFetching = false;
+  error = null;
   constructor(private http: HttpClient, private postService: PostService) {}
 
   ngOnInit() {
@@ -46,12 +47,17 @@ export class AppComponent implements OnInit {
       .subscribe((data)=> {
         this.isFetching = false; 
         this.loadedPosts = data
+      },
+      (err) => {
+        console.dir(err);
+        this.isFetching = false;
+        this.error = err
       })
     }, 300);
   }
 
   onClearPosts() {
-    this.postService.deletePosts().subscribe(
+    this.postService.deletePosts().subscribe(      
       ()=>this.onFetchPosts())
   }
 }
