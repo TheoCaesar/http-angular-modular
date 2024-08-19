@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { PostService } from './posts.service';
+import { throwError } from 'rxjs';
 
 export interface Post {
   id?:string;
@@ -42,6 +43,11 @@ export class AppComponent implements OnInit {
             postArray.push({...data[eachKey], id :eachKey})
           }
           return postArray;
+        }),
+        catchError((errorResponse)=>{
+          console.log('caught this error')
+          console.dir(errorResponse)
+          return throwError(errorResponse)
         })
       )
       .subscribe((data)=> {
@@ -49,7 +55,6 @@ export class AppComponent implements OnInit {
         this.loadedPosts = data
       },
       (err) => {
-        console.dir(err);
         this.isFetching = false;
         this.error = err
       })
