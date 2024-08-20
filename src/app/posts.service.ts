@@ -23,6 +23,8 @@ export class PostService{
                 'custom-header': 'hello mother sucker'
             }),
             params : customParams,
+            // observe: 'body'  // returns an error
+            observe: "response" as const
         }
         const subscr = this.http.post<Post>(this.apiUrl, postData,
              configObject );
