@@ -1,6 +1,7 @@
-import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
+import { HttpClient, HttpEventType, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Post } from "./app.component";
+import { tap } from "rxjs/operators";
 
 @Injectable({
     providedIn : 'root'
@@ -32,6 +33,14 @@ export class PostService{
     }
 
     deletePosts(){
-        return this.http.delete(this.apiUrl);
+        return this.http.delete(this.apiUrl, {
+            observe: "events"
+        }).pipe(
+            tap((eventObj)=> {
+                if (eventObj.type === HttpEventType.Sent) console.log('request sent');
+                if (eventObj.type === HttpEventType.Response) console.log(eventObj.body);
+                
+            })
+        );
     }
 }
