@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Post } from "./app.component";
 
@@ -14,7 +14,18 @@ export class PostService{
     }
     
     createPost(postData: Post){
-        const subscr = this.http.post<Post>(this.apiUrl, postData);
+        let customParams = new HttpParams()        
+        .set('pretty', 'print')
+        .append('next', 'second')      
+        
+        const configObject = { 
+            headers : new HttpHeaders ({
+                'custom-header': 'hello mother sucker'
+            }),
+            params : customParams,
+        }
+        const subscr = this.http.post<Post>(this.apiUrl, postData,
+             configObject );
         return subscr;
     }
 
